@@ -4,11 +4,12 @@ class AppSetting
 
     def load(*targets)
       conf = AppConfig.new
-      targets.reject {|t| t.to_s == "common" }.unshift(:common).each do |target|
-        name = target.to_s.strip
-        next if name.empty?
+      names = targets.map {|t| t.to_s.strip }
+        .reject {|t| t.empty? || t == "common" }
+        .unshift("common")
+      names.each do |name|
         if AppSetting.settings.key?(name)
-          AppSetting.settings[name].setup(conf) if AppSetting.settings.key?(name)
+          AppSetting.settings[name].setup(conf)
         else
           conf.info "Unknown target #{name}"
         end
@@ -45,7 +46,7 @@ class AppConfig
   end
 
   def debug(b=nil)
-    @debug = b unless b == nil
+    @debug = b unless b.nil?
     @debug
   end
 
