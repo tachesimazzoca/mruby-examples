@@ -1,0 +1,5 @@
+*~
+*.o
+*.mrb
+/mruby
+/setting
